@@ -26,7 +26,7 @@
             var nextRow = array[y+1] || [];
 
             var neighbors = [
-                array[y-1][x-1], array[y-1][x], array[y-1][x+1],
+                prevRow[x-1], prevRow[x], prevRow[x+1],
                 array[y][x-1], array[y][x+1],
                 array[y+1][x-1], array[y+1][x], array[y+1][x+1]
             ].forEach(function (x) {
