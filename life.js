@@ -21,19 +21,16 @@
         },
 
         aliveNeighbors: function (array, x, y) {
-            var sum = 0;
             var prevRow = array[y-1] || [];
             var nextRow = array[y+1] || [];
 
-            var neighbors = [
+            return [
                 prevRow[x-1], prevRow[x], prevRow[x+1],
                 array[y][x-1], array[y][x+1],
                 array[y+1][x-1], array[y+1][x], array[y+1][x+1]
-            ].forEach(function (x) {
-                sum += +!!a; // convert to bool, then convert to num 0 or 1
-            });
-
-            return sum;
+            ].reduce(function (prev, curr) {
+                return prev + +!!a; // convert to bool, then convert to num 0 or 1
+            }, 0);
         },
 
         toString: function () {
@@ -46,7 +43,6 @@
     }
 
 })();
-
 
 
 var game = new Life([
