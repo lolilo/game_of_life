@@ -11,11 +11,23 @@
 
     _.prototype = {
         next: function () {
-            this.prevBoard = cloneArray(this.board)
+            this.prevBoard = cloneArray(this.board);
 
-            for (var y=0; y<this.hegith; y++) {
+            for (var y=0; y<this.height; y++) {
                 for (var x=0; x<this.width; x++) {
-                    var neighbors = this.aliveNeighbors(this.prevBoard, x, y)
+                    var neighbors = this.aliveNeighbors(this.prevBoard, x, y);
+                    var alive = !!this.board[y][x];
+
+                    if (alive) {
+                        if (neighbors < 2 || neighbors > 3) {
+                            this.board[y][x] = 0;
+                        }
+                    }
+                    else {
+                        if (neighbors == 3) {
+                            this.board[y][x] = 1;
+                        }
+                    }
                 }
             }
         },
@@ -27,9 +39,9 @@
             return [
                 prevRow[x-1], prevRow[x], prevRow[x+1],
                 array[y][x-1], array[y][x+1],
-                array[y+1][x-1], array[y+1][x], array[y+1][x+1]
+                nextRow[x-1], nextRow[x], nextRow[x+1]
             ].reduce(function (prev, curr) {
-                return prev + +!!a; // convert to bool, then convert to num 0 or 1
+                return prev + +!!curr; // convert to bool, then convert to num 0 or 1
             }, 0);
         },
 
