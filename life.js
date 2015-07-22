@@ -56,17 +56,39 @@
 
 })();
 
+(function() {
 
-var game = new Life([
-    [0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0],
-    [0, 0, 1, 0, 0],
-    [0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0]
-]);
+var _ = self.LifeView = function (table, size) {
+    this.grid = table;
+    this.size = size;
+    this.createGrid();
+};
 
-console.log(game + '');
+_.prototype = {
+    createGrid: function () {
+        var fragment = document.createDocumentFragment();
+        this.grid.innterHTML = '';
+        this.checkboxes = [];
 
-game.next();
+        for (var y=0; y<this.size; y++) {
+            var row = document.createElement('tr');
+            this.checkboxes[y] = [];
 
-console.log(game + '');
+            for (var x=0; x<this.size; x++) {
+                var cell = document.createElement('td')
+                var checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                this.checkboxes[y][x] = checkbox;
+
+                cell.appendChild(checkbox);
+                row.appendChild(cell);
+            }
+            fragment.appendChild(row);
+        }
+        this.grid.appendChild(fragment);
+    }
+};
+
+})();
+
+var lifeView = new LifeView(document.getElementById('grid'), 12);
