@@ -1,3 +1,8 @@
+//self-defined jQuery selector
+function $(selector, container) {
+    return (container || document).querySelector(selector);
+}
+
 (function() {
 
     var _ = self.Life = function(seed) {
@@ -61,6 +66,8 @@
 var _ = self.LifeView = function (table, size) {
     this.grid = table;
     this.size = size;
+    this.started = false;
+
     this.createGrid();
 };
 
@@ -98,10 +105,15 @@ _.prototype = {
 
     play: function () {
         this.game = new Life(this.boardArray);
+        this.started = true;
     },
 
     next: function () {
+        if (!this.started || this.game) {
+            this.play();
+        }
         this.game.next();
+
         var board = this.game.board;
         for (var y=0; y<this.size; y++) {
             for (var x=0; x<this.size; x++) {
@@ -114,3 +126,15 @@ _.prototype = {
 })();
 
 var lifeView = new LifeView(document.getElementById('grid'), 12);
+
+(function() {
+
+var buttons = {
+    next: $('button.next')
+};
+
+buttons.next.addEventListener('click', function() {
+    lifeView.next();
+});
+
+})();
